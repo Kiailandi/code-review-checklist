@@ -1,0 +1,30 @@
+#!/bin/bash
+
+TEMPLATE="$HOME/repos/github/code-review-checklist/README.md"
+DEST_DIR="$HOME/documents/code-reviews"
+
+# Ensure destination directory exists
+mkdir -p "$DEST_DIR"
+
+# Extract PR ID from URL or use provided ID
+if [[ $1 =~ /pull/([0-9]+) ]]; then
+    PR_ID="${BASH_REMATCH[1]}"
+else
+    PR_ID="$1"
+fi
+
+# Validate PR ID
+if [[ -z "$PR_ID" ]]; then
+    echo "Error: No valid PR ID provided."
+    exit 1
+fi
+
+# Destination file path
+DEST_FILE="$DEST_DIR/checklist-code-review-$PR_ID.md"
+
+# Copy the template
+cp "$TEMPLATE" "$DEST_FILE"
+
+# Open in Vim
+vim "$DEST_FILE"
+
